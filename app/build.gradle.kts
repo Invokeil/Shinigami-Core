@@ -58,6 +58,21 @@ android {
         vectorDrawables { useSupportLibrary = true }
     }
 
+    // Declared BEFORE buildTypes, which references it during configuration.
+    signingConfigs {
+        if (hasCiSigning || keystoreProps.isNotEmpty()) {
+            create("release") {
+                storeFile = signingStoreFile() as java.io.File?
+                storePassword = System.getenv("SHINIGAMI_KEYSTORE_PASSWORD")
+                    ?: keystoreProps.getProperty("storePassword")
+                keyAlias = System.getenv("SHINIGAMI_KEY_ALIAS")
+                    ?: keystoreProps.getProperty("keyAlias")
+                keyPassword = System.getenv("SHINIGAMI_KEY_PASSWORD")
+                    ?: keystoreProps.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
@@ -73,20 +88,6 @@ android {
             signingConfig = signingConfigs.getByName(
                 if (hasCiSigning || keystoreProps.isNotEmpty()) "release" else "debug",
             )
-        }
-    }
-
-    signingConfigs {
-        if (hasCiSigning || keystoreProps.isNotEmpty()) {
-            create("release") {
-                storeFile = signingStoreFile() as java.io.File?
-                storePassword = System.getenv("SHINIGAMI_KEYSTORE_PASSWORD")
-                    ?: keystoreProps.getProperty("storePassword")
-                keyAlias = System.getenv("SHINIGAMI_KEY_ALIAS")
-                    ?: keystoreProps.getProperty("keyAlias")
-                keyPassword = System.getenv("SHINIGAMI_KEY_PASSWORD")
-                    ?: keystoreProps.getProperty("keyPassword")
-            }
         }
     }
 
