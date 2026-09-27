@@ -53,6 +53,17 @@ system, regardless of what the app does.
   **App info → ⋮ → Allow restricted settings** — this is standard Android
   behavior for sideloaded apps, not a Shinigami restriction.
 
+## Brand asset provenance (v0.2.1 → present)
+
+The shipped artwork comes from the official Shinigami Core identity files,
+published by the project owner:
+
+| Source asset | SHA-256 |
+| --- | --- |
+| `shinigami-logo-exact.svg` (pixel-preserving container, embedded 1254×1254 PNG extracted for rendering) | `e2f0bfe15c1de5874b6d69673287f1626d57eab896047d602dd03b5d29370d47` |
+| `shinigami-image.png` (official dark-tile rendering, used for the Play Store 512 icon) | `e00e3f5a84f14b1bcd1a28e3b97f63e21ee3f68d7c653fb67254f30df68ffd54` |
+| `shinigami_assistant_animation.json` as shipped in `res/raw` (authentic `loading-shinigami-colors` animation; embedded rasters re-encoded to **lossless** WebP — pixels bit-exact, motion data untouched) | `1ccada0d55629de8493dba8221567d5649488983c1fab49f805c5e791c94ed0d` |
+
 ## Why you should care
 
 If anyone distributes a "Shinigami Core" APK whose certificate does not

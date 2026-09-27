@@ -4,6 +4,20 @@ All notable changes to Shinigami Core are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2026-09-27
+
+The "brand" release — the synthetic placeholder artwork is replaced by the real Shinigami Core identity.
+
+### Changed
+
+- **Real logo everywhere** — the official Shinigami Core orb artwork (crimson crescent ring, 1254×1254 transparent master) now powers the entire icon family: adaptive launcher foreground inside the 66% safe zone, legacy square/round mipmaps (mdpi→xxxhdpi) on the `#0D0D12` tile, the 12+ splash icon, and the in-app logo drawable. The Play Store 512 px listing icon uses the official dark-tile rendering.
+- **Real wake/listen animation** — the hand-authored Lottie placeholder is replaced by the authentic `loading-shinigami-colors` animation (17 layers, 10 s seamless loop). Optimized for mobile without touching a single keyframe: every embedded raster was re-encoded as lossless WebP (bit-exact pixels, 459 KB → 260 KB, 43% smaller), which Android decodes natively via `BitmapFactory`. Quality tiers, reduced-motion respect and the battery-saver static orb fallback are unchanged.
+
+### Notes
+
+- Motion data, layer timings and composition (379×379, 29.97 fps, 301 frames) are preserved bit-for-bit; only the image container format changed.
+- The vector splash/logo placeholders were removed in favor of density-independent bitmap renderings of the official artwork (the "exact" SVG is a pixel-preserving raster container, not traced paths).
+
 ## [0.2.0] - 2026-09-27
 
 The "Hey Shini" release — the assistant becomes a transient system layer.
