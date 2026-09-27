@@ -1,0 +1,36 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Shinigami logo: crimson orb + scythe sweep + accent ring -->
+    <group android:scaleX="0.62" android:scaleY="0.62" android:pivotX="54" android:pivotY="54">
+        <!-- accent ring -->
+        <path android:pathData="M54,10 A44,44 0 1,1 53.9,10 Z"
+            android:strokeColor="#80F43F5E" android:strokeWidth="1.6"
+            android:fillColor="#00000000" />
+        <!-- glowing orb -->
+        <path android:pathData="M54,19 A35,35 0 1,1 53.9,19 Z">
+            <aapt:attr xmlns:aapt="http://schemas.android.com/aapt" name="android:fillColor">
+                <gradient android:type="radial" android:centerX="50" android:centerY="42" android:gradientRadius="56">
+                    <item android:offset="0" android:color="#FFFB7185" />
+                    <item android:offset="0.55" android:color="#FFE11D48" />
+                    <item android:offset="1" android:color="#FF701A75" />
+                </gradient>
+            </aapt:attr>
+        </path>
+        <!-- scythe blade sweep -->
+        <path
+            android:pathData="M21,67 C29,42 52,25 87,25 C70,33 57,44 49,58 C43,68 35,73 21,67 Z"
+            android:fillColor="#F8FAFC"
+            android:fillAlpha="0.95" />
+        <!-- blade edge accent -->
+        <path
+            android:pathData="M26,65 C34,46 54,31 83,28 C64,35 51,46 44,59 C40,66 32,69 26,65 Z"
+            android:fillColor="#1E1B2E"
+            android:fillAlpha="0.32" />
+        <!-- eye dot -->
+        <path android:pathData="M60,41 m-4.6,0 a4.6,4.6 0 1,1 9.2,0 a4.6,4.6 0 1,1 -9.2,0"
+            android:fillColor="#0D0D12" />
+    </group>
+</vector>

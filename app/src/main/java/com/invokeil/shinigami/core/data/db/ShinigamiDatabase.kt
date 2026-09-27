@@ -13,8 +13,10 @@ import androidx.room.RoomDatabase
         CustomCommandEntity::class,
         MemoryEntryEntity::class,
         ProtectedAppEntity::class,
+        RoutineEntity::class,
+        RoutineStepEntity::class,
     ],
-    version = 1,
+    version = 2,
     exportSchema = false,
 )
 abstract class ShinigamiDatabase : RoomDatabase() {
@@ -26,6 +28,7 @@ abstract class ShinigamiDatabase : RoomDatabase() {
     abstract fun customCommandDao(): CustomCommandDao
     abstract fun memoryDao(): MemoryDao
     abstract fun protectedAppDao(): ProtectedAppDao
+    abstract fun routineDao(): RoutineDao
 
     companion object {
         const val NAME = "shinigami.db"

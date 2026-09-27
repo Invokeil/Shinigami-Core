@@ -4,6 +4,27 @@ All notable changes to Shinigami Core are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-09-27
+
+The "Hey Shini" release — the assistant becomes a transient system layer.
+
+### Fixed
+
+- **INTERNET permission added** — v0.1.0 shipped without it, so adding a provider failed with `SecurityException: Permission Denied (missing INTERNET permission)`. Test Connection, Fetch Models and streaming now work.
+- **"Set alarm at 7 AM" now sets the alarm directly** — the manifest now declares `com.android.alarm.permission.SET_ALARM`, so the system clock honors `EXTRA_SKIP_UI` instead of falling back to opening the clock app. Regression-tested with the exact phrasing.
+
+### Added
+
+- **Assistant overlay ("Hey Shini" experience)** — a Google Assistant/Gemini-style transient overlay that appears above the current app and never opens the full application: VoiceInteractionSession hosting a Compose overlay (official assistant API path) plus a transparent trampoline for the software wake-word path. Full state machine (Activating / Listening / Transcribing / Thinking / Responding / Executing / ConfirmationRequired / Error), live partial transcript, mic-amplitude reactive orb (local only — amplitude never leaves the device), follow-up conversation window (5/8/10 s), no-speech timeout, swipe-down/back/X dismiss, emergency STOP during actions, in-overlay confirmations, text input, "Continue Reading" expansion, tablet width caps and bottom-center placement with navigation-bar insets.
+- **Shinigami orb animation** — a purpose-built 8 KB Lottie (crimson/violet energy orb, seamless 2 s loop) reused by the overlay, assistant screen and loading states, with quality tiers (Full / Battery-saver static vector) honoring the system reduced-motion setting.
+- **Routines & automation** — visual editor chaining tool steps (manual, spoken-phrase or time triggers). Every step still flows through the Tool Registry → Policy → Confirmation pipeline; nested routines are refused.
+- **Screen automation (accessibility)** — on-demand tap/scroll/back gestures and screen reading, gated behind Enhanced/Full Control modes, with hard refusal inside Protected Apps.
+- **Screen context** — "explain this screen" captures visible text on demand (accessibility tree only, no screenshots, 60 s freshness budget) with an overlay indicator; never captured by merely waking Shini.
+- **Shizuku support (optional)** — whitelisted shell operations only (exact media volume; app list), never AI-generated shell strings; explicit permission flow.
+- **In-app update checker** — polls GitHub Releases with ETag-cached requests, renders the changelog in a non-blocking bottom sheet, and installs updates through a PackageInstaller session after verifying the APK SHA-256 against GitHub's published digest. Update now / Remind me (48 h) / Skip this version.
+- **Adaptive components system** — the app profiles the device (ABI, API level, RAM tier, OEM ROM, form factor, mic/speech availability, power-save) and can fetch optional data-only components (models, voices) matched to that profile from GitHub Releases: size + SHA-256 verified, atomic install into `noBackupFilesDir`, fully offline-safe, never any dynamic code.
+- **Play Protect hardening** — PROVENANCE.md publishes the permanent signing-certificate fingerprints and verification steps; targetSdk 35; no QUERY_ALL_PACKAGES; in-app "unknown developer" explanation.
+
 ## [0.1.0] - 2026-09-27
 
 First public release. A privacy-first, bring-your-own-key AI assistant for Android.

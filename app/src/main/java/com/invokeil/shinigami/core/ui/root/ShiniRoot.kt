@@ -43,7 +43,10 @@ import com.invokeil.shinigami.feature.onboarding.OnboardingScreen
 import com.invokeil.shinigami.feature.permissions.PermissionsScreen
 import com.invokeil.shinigami.feature.providers.ProviderEditorScreen
 import com.invokeil.shinigami.feature.providers.ProvidersScreen
+import com.invokeil.shinigami.feature.routines.RoutinesScreen
 import com.invokeil.shinigami.feature.settings.SettingsScreen
+import com.invokeil.shinigami.feature.update.UpdatePopupHost
+import com.invokeil.shinigami.feature.update.UpdateViewModel
 
 object Routes {
     const val ASSISTANT = "assistant"
@@ -54,6 +57,7 @@ object Routes {
     const val PERMISSIONS = "permissions"
     const val AUDIT = "audit"
     const val COMMANDS = "commands"
+    const val ROUTINES = "routines"
 
     fun providerEditor(id: Long) = "provider_editor/$id"
 }
@@ -160,6 +164,7 @@ fun ShiniRoot(
                         onOpenPermissions = { navController.navigate(Routes.PERMISSIONS) },
                         onOpenAudit = { navController.navigate(Routes.AUDIT) },
                         onOpenCommands = { navController.navigate(Routes.COMMANDS) },
+                        onOpenRoutines = { navController.navigate(Routes.ROUTINES) },
                     )
                 }
                 composable(Routes.PERMISSIONS) {
@@ -171,7 +176,13 @@ fun ShiniRoot(
                 composable(Routes.COMMANDS) {
                     CommandsScreen(onBack = { navController.popBackStack() })
                 }
+                composable(Routes.ROUTINES) {
+                    RoutinesScreen(onBack = { navController.popBackStack() })
+                }
             }
         }
+        // In-app update popup (checked on launch, non-blocking bottom sheet)
+        val updateVm: UpdateViewModel = hiltViewModel()
+        UpdatePopupHost(vm = updateVm)
     }
 }

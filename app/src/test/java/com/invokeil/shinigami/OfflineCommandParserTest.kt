@@ -72,6 +72,30 @@ class OfflineCommandParserTest {
         assertEquals(0, call.arguments["minute"])
     }
 
+
+    @Test
+    fun `user phrasing set alarm at 7 am routes to direct set`() = runTest {
+        // Regression v0.2.0: "Set alarm at 7 AM" must produce a direct
+        // set_alarm tool call (SKIP_UI honored via SET_ALARM permission),
+        // never a fallback that merely opens the clock app.
+        val match = parser.parse("set alarm at 7 am", appMatcher = null)
+        assertNotNull(match)
+        val call = match!!.toolCalls.single()
+        assertEquals("set_alarm", call.tool)
+        assertEquals(7, call.arguments["hour"])
+        assertEquals(0, call.arguments["minute"])
+    }
+
+    @Test
+    fun `alarm at exact time without minutes`() = runTest {
+        val match = parser.parse("set alarm at 7:15 am", appMatcher = null)
+        assertNotNull(match)
+        val call = match!!.toolCalls.first()
+        assertEquals("set_alarm", call.tool)
+        assertEquals(7, call.arguments["hour"])
+        assertEquals(15, call.arguments["minute"])
+    }
+
     @Test
     fun `alarm with colon and pm`() = runTest {
         val match = parser.parse("wake me at 7:30 pm", appMatcher = null)

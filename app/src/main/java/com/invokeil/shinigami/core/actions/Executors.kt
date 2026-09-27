@@ -84,6 +84,8 @@ class NotificationCenter @Inject constructor() {
 class ExecutorDispatcher @Inject constructor(
     private val appCatalog: AppCatalog,
     private val notifications: NotificationCenter,
+    private val routineDao: com.invokeil.shinigami.core.data.db.RoutineDao,
+    private val routineRunner: dagger.Lazy<com.invokeil.shinigami.feature.routines.RoutineRunner>,
 ) {
 
     suspend fun dispatch(context: Context, call: ValidatedToolCall): ActionResult = try {
@@ -115,6 +117,11 @@ class ExecutorDispatcher @Inject constructor(
             "read_notifications" -> readNotifications(context, call)
             "dismiss_notification" -> dismissNotification(context, call)
             "reply_notification" -> replyNotification(context, call)
+            "screen_read" -> screenRead(context)
+            "screen_tap" -> screenTap(context, call)
+            "screen_scroll" -> screenScroll(context)
+            "screen_back" -> screenBack(context)
+            "run_routine" -> runRoutine(context, call)
             else -> ActionResult.Failure("UNSUPPORTED", "This capability has no executor.")
         }
     } catch (c: kotlinx.coroutines.CancellationException) {
@@ -608,6 +615,76 @@ class ExecutorDispatcher @Inject constructor(
         "open_app" -> "The app couldn't be opened."
         "brightness_set" -> "The system refused the brightness change."
         else -> "The device refused that action."
+    }
+
+
+    // -------------------------------------------------- v0.2: screen/a11y --
+
+    private fun screenRead(context: Context): ActionResult {
+        val svc = com.invokeil.shinigami.service.ShinigamiAccessibilityService.instance
+            ?: return ActionResult.Failure(
+                "A11Y_OFF",
+                "Turn on Shinigami's accessibility service first (Settings > Permissions).",
+            )
+        val captured = svc.captureScreenContext()
+            ?: return ActionResult.Failure(
+                "PROTECTED_APP",
+                "Screen access is disabled for this app.",
+            )
+        return ActionResult.Success(
+            "Screen of ${captured.appLabel}:\n${captured.text.take(1800)}",
+        )
+    }
+
+    private fun screenTap(context: Context, call: ValidatedToolCall): ActionResult {
+        val svc = com.invokeil.shinigami.service.ShinigamiAccessibilityService.instance
+            ?: return ActionResult.Failure("A11Y_OFF", "Accessibility service isn't enabled.")
+        val x = (call.args["x"] as? Number)?.toFloat()
+            ?: call.args["x"]?.toString()?.toFloatOrNull()
+            ?: return fail("Missing tap X.")
+        val y = (call.args["y"] as? Number)?.toFloat()
+            ?: call.args["y"]?.toString()?.toFloatOrNull()
+            ?: return fail("Missing tap Y.")
+        return if (svc.tapScreen(x, y)) ActionResult.Success("Tapped ($x, $y).")
+        else ActionResult.Failure("GESTURE_FAILED", "The tap gesture didn't go through.")
+    }
+
+    private fun screenScroll(context: Context): ActionResult {
+        val svc = com.invokeil.shinigami.service.ShinigamiAccessibilityService.instance
+            ?: return ActionResult.Failure("A11Y_OFF", "Accessibility service isn't enabled.")
+        return if (svc.scrollDown()) ActionResult.Success("Scrolled down.")
+        else ActionResult.Failure("GESTURE_FAILED", "Scroll didn't go through.")
+    }
+
+    private fun screenBack(context: Context): ActionResult {
+        val svc = com.invokeil.shinigami.service.ShinigamiAccessibilityService.instance
+            ?: return ActionResult.Failure("A11Y_OFF", "Accessibility service isn't enabled.")
+        return if (svc.globalBack()) ActionResult.Success("Went back.")
+        else ActionResult.Failure("GESTURE_FAILED", "Back didn't go through.")
+    }
+
+    private suspend fun runRoutine(context: Context, call: ValidatedToolCall): ActionResult {
+        val name = call.args["name"]?.toString()?.trim()
+            ?: return fail("Missing routine name.")
+        val all = try { routineDao.allEnabled() } catch (_: Throwable) { emptyList() }
+        val routine = all.firstOrNull { it.name.equals(name, ignoreCase = true) }
+            ?: all.firstOrNull { it.name.contains(name, ignoreCase = true) }
+            ?: return ActionResult.Failure("NO_ROUTINE", "There's no routine called \"$name\".")
+        return try {
+            kotlinx.coroutines.withTimeout(120_000) {
+                val runner = routineRunner.get()
+                runner.run(routine.id)
+                val progress = runner.progress.value
+                when {
+                    progress?.error != null ->
+                        ActionResult.Failure("ROUTINE_STEP", progress.error ?: "A step failed.")
+                    else ->
+                        ActionResult.Success("Routine ${routine.name} finished (${progress?.total ?: 0} steps).")
+                }
+            }
+        } catch (t: Throwable) {
+            ActionResult.Failure("ROUTINE_ERROR", "Routine failed: ${t.message ?: "unknown"}")
+        }
     }
 
     private companion object {

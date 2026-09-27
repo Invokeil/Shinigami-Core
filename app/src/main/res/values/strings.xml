@@ -222,4 +222,5 @@
     <string name="emergency_stop">Emergency stop</string>
     <string name="emergency_stopped">Stopped. You are in control.</string>
     <string name="protected_app_notice">Automation paused in protected app.</string>
+    <string name="accessibility_service_description">Shinigami uses accessibility only for actions you explicitly request: taps, scrolling, back navigation and on-demand screen reading. Screen content is never read for protected apps, nothing is collected in the background, and every action appears in the audit log.</string>
 </resources>

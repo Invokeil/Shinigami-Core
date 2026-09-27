@@ -65,7 +65,9 @@ fun SettingsScreen(
     onOpenPermissions: () -> Unit,
     onOpenAudit: () -> Unit,
     onOpenCommands: () -> Unit,
+    onOpenRoutines: () -> Unit = {},
     viewModel: SettingsViewModel = androidx.hilt.navigation.compose.hiltViewModel(),
+    overlayVm: OverlaySettingsViewModel = androidx.hilt.navigation.compose.hiltViewModel(),
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -258,6 +260,92 @@ fun SettingsScreen(
             }
         }
 
+        // ---- Assistant overlay (OVERLAY SPEC §50) ----
+        SectionHeader("Assistant overlay")
+        val overlayPrefs by overlayVm.prefs.collectAsState()
+        SettingSwitch(
+            icon = Icons.Rounded.SmartToy,
+            title = "Assistant overlay",
+            subtitle = "Quick assistant bubble above any app — \u201cHey Shini\u201d never opens the full app.",
+            checked = overlayPrefs.overlayEnabled,
+            onChange = { overlayVm.setOverlayEnabled(it) },
+        )
+        Row(horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp)) {
+            FilterChip(
+                selected = overlayPrefs.style == com.invokeil.shinigami.core.overlay.OverlayStyle.COMPACT,
+                onClick = { overlayVm.setStyle(com.invokeil.shinigami.core.overlay.OverlayStyle.COMPACT) },
+                label = { Text("Compact") },
+            )
+            FilterChip(
+                selected = overlayPrefs.style == com.invokeil.shinigami.core.overlay.OverlayStyle.MINIMAL,
+                onClick = { overlayVm.setStyle(com.invokeil.shinigami.core.overlay.OverlayStyle.MINIMAL) },
+                label = { Text("Minimal") },
+            )
+            FilterChip(
+                selected = overlayPrefs.style == com.invokeil.shinigami.core.overlay.OverlayStyle.EXPANDED,
+                onClick = { overlayVm.setStyle(com.invokeil.shinigami.core.overlay.OverlayStyle.EXPANDED) },
+                label = { Text("Expanded") },
+            )
+        }
+        Spacer(Modifier.height(6.dp))
+        Row(horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp)) {
+            FilterChip(
+                selected = overlayPrefs.position == com.invokeil.shinigami.core.overlay.OverlayPosition.BOTTOM,
+                onClick = { overlayVm.setPosition(com.invokeil.shinigami.core.overlay.OverlayPosition.BOTTOM) },
+                label = { Text("Bottom") },
+            )
+            FilterChip(
+                selected = overlayPrefs.position == com.invokeil.shinigami.core.overlay.OverlayPosition.CENTER,
+                onClick = { overlayVm.setPosition(com.invokeil.shinigami.core.overlay.OverlayPosition.CENTER) },
+                label = { Text("Center") },
+            )
+        }
+        SettingSwitch(
+            icon = Icons.Rounded.Receipt,
+            title = "Show transcript",
+            subtitle = "Display what you said while Shini listens.",
+            checked = overlayPrefs.showTranscript,
+            onChange = { overlayVm.setTranscript(it) },
+        )
+        SettingSwitch(
+            icon = Icons.Rounded.Widgets,
+            title = "Action progress + sound + haptics",
+            subtitle = "Status text, subtle activation sound and haptic feedback.",
+            checked = overlayPrefs.showActionProgress,
+            onChange = { overlayVm.setActionProgress(it) },
+        )
+        SettingSwitch(
+            icon = Icons.Rounded.History,
+            title = "Conversation follow-up",
+            subtitle = "Keep the mic open for a few seconds after each answer (timeout: ${overlayPrefs.followUpTimeoutSec}s).",
+            checked = overlayPrefs.followUp,
+            onChange = { overlayVm.setFollowUp(it) },
+        )
+        SettingSwitch(
+            icon = Icons.Rounded.Fingerprint,
+            title = "Allow on lock screen",
+            subtitle = "Safe actions only — sensitive actions require unlocking.",
+            checked = overlayPrefs.allowOnLockScreen,
+            onChange = { overlayVm.setLockScreen(it) },
+        )
+        Row(horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp)) {
+            FilterChip(
+                selected = overlayPrefs.animationQuality == com.invokeil.shinigami.core.overlay.AnimationQuality.AUTO,
+                onClick = { overlayVm.setQuality(com.invokeil.shinigami.core.overlay.AnimationQuality.AUTO) },
+                label = { Text("Anim: Auto") },
+            )
+            FilterChip(
+                selected = overlayPrefs.animationQuality == com.invokeil.shinigami.core.overlay.AnimationQuality.HIGH,
+                onClick = { overlayVm.setQuality(com.invokeil.shinigami.core.overlay.AnimationQuality.HIGH) },
+                label = { Text("High") },
+            )
+            FilterChip(
+                selected = overlayPrefs.animationQuality == com.invokeil.shinigami.core.overlay.AnimationQuality.BATTERY_SAVER,
+                onClick = { overlayVm.setQuality(com.invokeil.shinigami.core.overlay.AnimationQuality.BATTERY_SAVER) },
+                label = { Text("Battery saver") },
+            )
+        }
+
         // ---- Privacy ----
         SectionHeader(stringResource(R.string.settings_privacy))
         SettingSwitch(
@@ -336,6 +424,7 @@ fun SettingsScreen(
         LinkRow(stringResource(R.string.permissions_title), Icons.Rounded.Tune, onOpenPermissions)
         LinkRow(stringResource(R.string.audit_title), Icons.Rounded.Receipt, onOpenAudit)
         LinkRow(stringResource(R.string.commands_title), Icons.Rounded.Widgets, onOpenCommands)
+        LinkRow("Routines & automation", Icons.Rounded.SmartToy, onOpenRoutines)
 
         // ---- About ----
         SectionHeader(stringResource(R.string.settings_about))

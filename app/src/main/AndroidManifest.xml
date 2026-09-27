@@ -3,6 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <!-- ======================== Permissions ======================== -->
+    <!-- CRITICAL: provider/API traffic — was missing in v0.1.0 (SecurityException on test connection) -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Honors AlarmClock.ACTION_SET_ALARM EXTRA_SKIP_UI (direct alarm set, no clock UI) -->
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <!-- In-app update installer (PackageInstaller session) -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -65,6 +71,16 @@
                 android:value="selectionAction=com.invokeil.shinigami.ASSIST" />
         </activity>
 
+        <!-- Transparent overlay host for the software wake-word path (§2, §4) -->
+        <activity
+            android:name=".service.AssistantTrampolineActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:showWhenLocked="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:turnScreenOn="true"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|smallestScreenSize|uiMode" />
+
         <!-- Default assistant role -->
         <service
             android:name=".service.ShinigamiVoiceInteractionService"
@@ -113,6 +129,35 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+
+        <!-- Accessibility automation (v0.2, opt-in, protected-apps enforced) -->
+        <service
+            android:name=".service.ShinigamiAccessibilityService"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+
+        <!-- Shizuku (optional, whitelist ops only) -->
+        <provider
+            android:name="rikka.shizuku.ShizukuProvider"
+            android:authorities="${applicationId}.shizuku"
+            android:multiprocess="false"
+            android:enabled="true"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
+
+        <!-- In-app update install status -->
+        <receiver
+            android:name=".core.update.UpdateInstallReceiver"
+            android:exported="false" />
 
         <!-- Disable default WorkManager initializer (Hilt-friendly startup) -->
         <provider

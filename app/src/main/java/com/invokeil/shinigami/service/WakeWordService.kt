@@ -167,14 +167,19 @@ class WakeWordService : Service() {
     }
 
     private fun launchAssistant() {
-        val intent = Intent(this, MainActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            putExtra(MainActivity.EXTRA_WAKE_LAUNCH, true)
+        // OVERLAY SPEC §2: wake NEVER opens the full app — show the
+        // transparent overlay/trampoline above whatever is on screen.
+        val intent = Intent(this, AssistantTrampolineActivity::class.java).apply {
+            addFlags(
+                Intent.FLAG_ACTIVITY_NEW_TASK or
+                    Intent.FLAG_ACTIVITY_NO_USER_ACTION or
+                    Intent.FLAG_ACTIVITY_NO_HISTORY,
+            )
         }
         try {
             startActivity(intent)
         } catch (t: Throwable) {
-            ShiniLog.w(TAG, "wake launch failed (device locked?)")
+            ShiniLog.w(TAG, "wake overlay failed (device locked?)")
         }
     }
 

@@ -115,3 +115,30 @@ data class ProtectedAppEntity(
     val label: String,
     val addedAt: Long = System.currentTimeMillis(),
 )
+
+// ===================== Routines / automation (v0.2) =====================
+
+@Entity(tableName = "routines")
+data class RoutineEntity(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val name: String,
+    /** TRIGGER_MANUAL | TRIGGER_PHRASE | TRIGGER_TIME */
+    val triggerType: String = "TRIGGER_MANUAL",
+    val triggerPhrase: String? = null,
+    val triggerHour: Int? = null,
+    val triggerMinute: Int? = null,
+    val enabled: Boolean = true,
+    val createdAt: Long = System.currentTimeMillis(),
+    val updatedAt: Long = System.currentTimeMillis(),
+)
+
+/** One step = one whitelisted ToolCall; executed strictly through ActionEngine. */
+@Entity(tableName = "routine_steps", indices = [Index("routineId")])
+data class RoutineStepEntity(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val routineId: Long,
+    val position: Int,
+    val toolId: String,
+    val argumentsJson: String = "{}",
+    val continueOnError: Boolean = false,
+)

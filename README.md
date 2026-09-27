@@ -111,6 +111,21 @@ Everyday device commands — opening apps, setting alarms, timers, flashlight, v
 
 **Requirements:** Android 10 (API 29) or newer. Nothing else — no account, no Google sign-in.
 
+### "Unknown developer" warning?
+
+Shinigami Core is self-published open source, so Play Protect may scan it on
+first install — that's normal for every sideloaded app and not a detection.
+Every release APK is signed with our single permanent key; verify yours:
+
+```
+SHA-256  93:A9:59:4D:1B:D0:FD:2C:8F:8E:69:F3:E6:AC:18:58:64:AB:3B:5F:63:4A:6E:E4:16:1E:A9:E6:0F:49:01:5B
+```
+
+Full verification steps and the Play Protect explanation live in
+[PROVENANCE.md](PROVENANCE.md). The app also has a built-in **update
+checker** that offers signed updates directly (Settings → About shows the
+current version; the popup appears whenever a new release is published).
+
 <details>
 <summary><strong>Building from source</strong></summary>
 
@@ -166,6 +181,15 @@ This section is short on purpose. The full model is documented in [SECURITY.md](
 - **Your credentials are your responsibility.** Keys are stored encrypted on-device, but anyone who obtains your provider key can use your quota. Treat API keys like passwords.
 
 ---
+
+## The "Hey Shini" overlay
+
+Shinigami behaves like a system assistant, not another chat app. Say
+**"Hey Shini"** (or corner-swipe / long-press-power when Shini is your
+default assistant) and a compact crimson orb appears **above whatever you
+were doing** — it listens, answers, runs your command and fades away,
+leaving the underlying app untouched. Full-screen Shinigami only opens when
+*you* tap Expand / Continue Reading.
 
 ## Roadmap
 

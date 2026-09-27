@@ -196,3 +196,33 @@ interface ProtectedAppDao {
     @Query("SELECT EXISTS(SELECT 1 FROM protected_apps WHERE packageName = :packageName)")
     suspend fun isProtected(packageName: String): Boolean
 }
+
+@Dao
+interface RoutineDao {
+    @Query("SELECT * FROM routines ORDER BY name")
+    fun observeAll(): Flow<List<RoutineEntity>>
+
+    @Query("SELECT * FROM routines WHERE enabled = 1")
+    suspend fun allEnabled(): List<RoutineEntity>
+
+    @Query("SELECT * FROM routines WHERE id = :id")
+    suspend fun byId(id: Long): RoutineEntity?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(routine: RoutineEntity): Long
+
+    @Update
+    suspend fun update(routine: RoutineEntity)
+
+    @Query("DELETE FROM routines WHERE id = :id")
+    suspend fun delete(id: Long)
+
+    @Query("SELECT * FROM routine_steps WHERE routineId = :routineId ORDER BY position")
+    suspend fun steps(routineId: Long): List<RoutineStepEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertStep(step: RoutineStepEntity): Long
+
+    @Query("DELETE FROM routine_steps WHERE routineId = :routineId")
+    suspend fun deleteSteps(routineId: Long)
+}

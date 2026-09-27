@@ -41,7 +41,11 @@ jobs:
 
       - name: Extract version name
         id: version
-        run: echo "tag=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+        run: |
+          echo "tag=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+          # semver tag (vX.Y.Z) -> monotonic versionCode (X*10000 + Y*100 + Z)
+          CODE=$(echo "${GITHUB_REF_NAME}" | sed 's/^v//' | cut -d. -f1-3 | awk -F. '{print $1*10000 + $2*100 + $3}')
+          echo "code=${CODE}" >> "$GITHUB_OUTPUT"
 
       - name: Rename APK
         run: |
@@ -56,6 +60,8 @@ jobs:
             ## Shinigami Core ${{ steps.version.outputs.tag }}
 
             **SHINIGAMI — by Invokeil**
+
+            versionCode: ${{ steps.version.outputs.code }}
 
             ### Install
             1. Download `Shinigami-Core-${{ steps.version.outputs.tag }}.apk` below.
@@ -73,5 +79,6 @@ jobs:
           prerelease: false
           files: |
             Shinigami-Core-*.apk
+            components.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

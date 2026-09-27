@@ -404,6 +404,55 @@ class ToolRegistry @Inject constructor() {
             alwaysConfirm = true,
             summarizer = { a -> "Send reply: “${a["text"]}”" },
         ),
+
+        // ---- v0.2: screen automation (accessibility-backed) -------------
+        ToolDefinition(
+            id = "screen_read",
+            displayName = "Read screen",
+            description = "Read visible text of the current screen for context (never for protected apps)",
+            risk = RiskLevel.MEDIUM,
+            minMode = PermissionMode.ENHANCED,
+            summarizer = { _ -> "Read the current screen" },
+        ),
+        ToolDefinition(
+            id = "screen_tap",
+            displayName = "Tap screen point",
+            description = "Tap a screen coordinate via accessibility gesture",
+            params = listOf(
+                ToolParam("x", ParamType.FLOAT, "X in pixels"),
+                ToolParam("y", ParamType.FLOAT, "Y in pixels"),
+            ),
+            risk = RiskLevel.HIGH,
+            minMode = PermissionMode.FULL,
+            alwaysConfirm = true,
+            summarizer = { a -> "Tap screen at (${a["x"]}, ${a["y"]})" },
+        ),
+        ToolDefinition(
+            id = "screen_scroll",
+            displayName = "Scroll screen",
+            description = "Scroll the current screen down",
+            risk = RiskLevel.MEDIUM,
+            minMode = PermissionMode.ENHANCED,
+            summarizer = { _ -> "Scroll down" },
+        ),
+        ToolDefinition(
+            id = "screen_back",
+            displayName = "Press back",
+            description = "Press the system back action",
+            risk = RiskLevel.MEDIUM,
+            minMode = PermissionMode.ENHANCED,
+            summarizer = { _ -> "Press back" },
+        ),
+
+        // ---- v0.2: routines --------------------------------------------
+        ToolDefinition(
+            id = "run_routine",
+            displayName = "Run routine",
+            description = "Run a user-defined routine by name",
+            params = listOf(ToolParam("name", ParamType.STRING, "Routine name")),
+            risk = RiskLevel.MEDIUM,
+            summarizer = { a -> "Run routine “${a["name"]}”" },
+        ),
     )
 
     private fun humanDuration(seconds: Long): String {
