@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Shinigami Core</string>
+    <string name="brand_tagline" translatable="false">SHINIGAMI\nby Invokeil</string>
+
+    <!-- ============ Onboarding ============ -->
+    <string name="ob_welcome_title">Meet Shini</string>
+    <string name="ob_welcome_body">Your assistant, your rules. Shini runs entirely on your device — you decide which AI provider to connect, which permissions to grant, and nothing more.</string>
+    <string name="ob_capability_title">What can Shini do?</string>
+    <string name="ob_capability_body">Open apps, set alarms and timers, control media and volume, toggle the flashlight, call contacts, search the web — all offline. Connect an AI provider and Shini can also hold real conversations and handle complex requests.</string>
+    <string name="ob_privacy_title">Privacy first</string>
+    <string name="ob_privacy_body">No account. No telemetry. Secrets are encrypted with your device keystore. The AI never acts alone — every action is validated locally before your phone executes it.</string>
+    <string name="ob_choice_title">How do you want to start?</string>
+    <string name="ob_choice_offline_title">Start offline</string>
+    <string name="ob_choice_offline_body">Basic commands work instantly, no API key needed.</string>
+    <string name="ob_choice_provider_title">Connect an AI</string>
+    <string name="ob_choice_provider_body">Bring your own key — OpenAI, Gemini, Mistral, GLM or any OpenAI-compatible endpoint.</string>
+    <string name="ob_voice_title">Voice</string>
+    <string name="ob_voice_body">Shini uses your Android speech recognition and text-to-speech. You can change engine, language, speed and pitch anytime.</string>
+    <string name="ob_permissions_title">Permissions</string>
+    <string name="ob_permissions_body">Shini asks only for what a feature needs, when it needs it. You can review everything on the Permission Dashboard.</string>
+    <string name="ob_finish_title">You are ready</string>
+    <string name="ob_finish_body">Say “Hey Shini” — or tap the orb — and see what happens.</string>
+    <string name="ob_next">Next</string>
+    <string name="ob_back">Back</string>
+    <string name="ob_skip">Skip</string>
+    <string name="ob_get_started">Get started</string>
+
+    <!-- ============ Assistant home ============ -->
+    <string name="home_greeting_morning">Good morning</string>
+    <string name="home_greeting_afternoon">Good afternoon</string>
+    <string name="home_greeting_evening">Good evening</string>
+    <string name="home_greeting_night">Up late?</string>
+    <string name="home_placeholder_ask">Ask Shini anything…</string>
+    <string name="home_provider_none">No AI provider configured</string>
+    <string name="home_provider_offline">Offline mode · basic commands active</string>
+    <string name="home_listening">Listening…</string>
+    <string name="home_thinking">Thinking…</string>
+    <string name="home_speaking">Speaking… tap to interrupt</string>
+    <string name="home_executing">Executing action…</string>
+    <string name="home_mic_cd">Start voice input</string>
+    <string name="home_send_cd">Send message</string>
+    <string name="home_stop_cd">Stop generation</string>
+    <string name="home_new_chat_cd">New chat</string>
+    <string name="home_empty_title">How can I help?</string>
+    <string name="home_empty_body">Try “open YouTube”, “set an alarm for 7 AM”, “flashlight on” — or just talk to me.</string>
+    <string name="home_suggestion_open">Open %1$s</string>
+    <string name="home_suggestion_alarm">Set an alarm for 7 AM</string>
+    <string name="home_suggestion_flash">Turn on the flashlight</string>
+    <string name="home_suggestion_battery">What is my battery level?</string>
+    <string name="home_wake_notice">“Hey Shini” detected</string>
+
+    <!-- ============ Tool execution cards ============ -->
+    <string name="tool_running">%1$s…</string>
+    <string name="tool_done">%1$s ✓</string>
+    <string name="tool_failed">%1$s failed</string>
+    <string name="tool_confirm_title">Confirm action</string>
+    <string name="tool_confirm_cd">Confirmation required</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_confirm">Confirm</string>
+    <string name="action_send">Send</string>
+    <string name="action_run">Run</string>
+
+    <!-- ============ Providers ============ -->
+    <string name="providers_title">AI Providers</string>
+    <string name="providers_empty_title">No AI provider yet</string>
+    <string name="providers_empty_body">Add OpenAI, Gemini, Mistral, GLM or any OpenAI-compatible endpoint. Your key stays encrypted on this device.</string>
+    <string name="provider_add">Add provider</string>
+    <string name="provider_name">Provider name</string>
+    <string name="provider_type">Provider type</string>
+    <string name="provider_base_url">Base URL</string>
+    <string name="provider_model">Model</string>
+    <string name="provider_model_hint">e.g. gpt-4o-mini, gemini-1.5-flash, llama3.3…</string>
+    <string name="provider_api_key">API key</string>
+    <string name="provider_api_key_optional">API key (optional)</string>
+    <string name="provider_auth_none">None</string>
+    <string name="provider_auth_bearer">Bearer token</string>
+    <string name="provider_auth_api_key">API-key header</string>
+    <string name="provider_auth_basic">Basic (user + password)</string>
+    <string name="provider_header_name">Header name</string>
+    <string name="provider_username">Username</string>
+    <string name="provider_password">Password</string>
+    <string name="provider_extra_headers">Extra headers</string>
+    <string name="provider_test">Test connection</string>
+    <string name="provider_fetch_models">Fetch models</string>
+    <string name="provider_save">Save provider</string>
+    <string name="provider_delete">Delete</string>
+    <string name="provider_set_active">Set active</string>
+    <string name="provider_active_badge">Active</string>
+    <string name="provider_advanced">Advanced</string>
+    <string name="provider_temperature">Temperature</string>
+    <string name="provider_max_tokens">Max output tokens</string>
+    <string name="provider_system_prompt_extra">Custom instructions</string>
+    <string name="provider_test_ok">Connected · %1$d ms</string>
+    <string name="provider_test_ok_detail">Model available: %1$s</string>
+    <string name="provider_test_http">HTTP %1$d</string>
+    <string name="provider_test_401">401 Unauthorized — your API key was rejected.</string>
+    <string name="provider_test_404">404 — endpoint or model not found. Check the Base URL and model.</string>
+    <string name="provider_test_timeout">The provider took too long to respond. Check the Base URL.</string>
+    <string name="provider_test_network">Unable to connect. Check the Base URL and your internet.</string>
+    <string name="provider_test_details">Technical details</string>
+    <string name="provider_https_warning">Non-HTTPS endpoint — data is sent in cleartext. Only use on trusted LANs.</string>
+    <string name="provider_type_openai">OpenAI</string>
+    <string name="provider_type_gemini">Google Gemini</string>
+    <string name="provider_type_mistral">Mistral</string>
+    <string name="provider_type_glm">GLM / Z.AI</string>
+    <string name="provider_type_ollama">Ollama (local)</string>
+    <string name="provider_type_openai_compat">OpenAI-compatible</string>
+
+    <!-- ============ Permissions ============ -->
+    <string name="permissions_title">Permission Dashboard</string>
+    <string name="permissions_subtitle">Every capability, explained. Grant only what you need.</string>
+    <string name="perm_state_enabled">Enabled</string>
+    <string name="perm_state_disabled">Disabled</string>
+    <string name="perm_state_unavailable">Unavailable</string>
+    <string name="perm_action_grant">Grant</string>
+    <string name="perm_action_settings">Open settings</string>
+    <string name="perm_mode_title">Permission mode</string>
+    <string name="perm_mode_standard">Standard</string>
+    <string name="perm_mode_standard_desc">Chat, voice, apps, alarms, media, web. Great default.</string>
+    <string name="perm_mode_enhanced">Enhanced</string>
+    <string name="perm_mode_enhanced_desc">Adds contacts, calls, notifications, calendar.</string>
+    <string name="perm_mode_full">Full Control</string>
+    <string name="perm_mode_full_desc">Power users. Automation, notification listener, DND, overlays.</string>
+    <string name="fullcontrol_warning_title">Before enabling Full Control</string>
+    <string name="fullcontrol_warning_body">Full Control may allow the assistant to read visible screen content, interact with apps, access notifications and perform supported device actions — and send the relevant context to your configured AI provider when required.\n\nThis increases privacy and security risk. Only continue if you understand and trust your AI provider.</string>
+    <string name="fullcontrol_checkbox">I understand the risks.</string>
+    <string name="fullcontrol_enable">Enable Full Control Mode</string>
+
+    <!-- ============ Audit ============ -->
+    <string name="audit_title">Audit Log</string>
+    <string name="audit_empty_title">Nothing logged yet</string>
+    <string name="audit_empty_body">Every meaningful action Shini performs on your device will appear here with time, source and result.</string>
+    <string name="audit_clear">Clear log</string>
+    <string name="audit_filter_all">All</string>
+
+    <!-- ============ History ============ -->
+    <string name="history_title">Conversations</string>
+    <string name="history_empty_title">No conversations yet</string>
+    <string name="history_empty_body">Your chats will appear here. Search, pin, rename or export anytime.</string>
+    <string name="history_delete_cd">Delete conversation</string>
+    <string name="history_pin_cd">Pin conversation</string>
+
+    <!-- ============ Settings ============ -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_theme_system">Follow system</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_dynamic_color">Dynamic color</string>
+    <string name="settings_dynamic_color_desc">Use wallpaper-based Material You palette (Android 12+)</string>
+    <string name="settings_animations">Reduce animations</string>
+    <string name="settings_voice">Voice</string>
+    <string name="settings_tts_enabled">Speak replies aloud</string>
+    <string name="settings_tts_speed">Speech speed</string>
+    <string name="settings_tts_pitch">Speech pitch</string>
+    <string name="settings_tts_test">Test voice</string>
+    <string name="settings_stt_language">Recognition language</string>
+    <string name="settings_stt_language_system">System default</string>
+    <string name="settings_wake_word">Wake word</string>
+    <string name="settings_wake_word_desc">Listen for “Hey Shini” in the background. Uses a persistent microphone service and may increase battery usage.</string>
+    <string name="settings_wake_phrase">Activation phrase</string>
+    <string name="settings_privacy">Privacy</string>
+    <string name="settings_incognito">Private session</string>
+    <string name="settings_incognito_desc">Chats are not saved, nothing is remembered.</string>
+    <string name="settings_memory">Memory</string>
+    <string name="settings_memory_enabled">Remember preferences</string>
+    <string name="settings_memory_desc">Shini stores small notes like favourite apps and aliases. You can inspect and clear everything.</string>
+    <string name="settings_history_retention">Keep conversations</string>
+    <string name="settings_history_forever">Forever</string>
+    <string name="settings_history_30d">30 days</string>
+    <string name="settings_history_7d">7 days</string>
+    <string name="settings_history_1d">1 day</string>
+    <string name="settings_history_off">No history</string>
+    <string name="settings_confirmation">Action confirmations</string>
+    <string name="settings_confirm_always">Always ask</string>
+    <string name="settings_confirm_sensitive">Ask for sensitive actions</string>
+    <string name="settings_confirm_minimal">Minimal confirmations</string>
+    <string name="settings_biometric">Biometric for high-risk actions</string>
+    <string name="settings_biometric_desc">Require device credential before critical actions</string>
+    <string name="settings_data">Data &amp; backup</string>
+    <string name="settings_export">Export configuration</string>
+    <string name="settings_export_desc">Providers (without secrets), routines and settings as JSON</string>
+    <string name="settings_about">About</string>
+    <string name="settings_about_body">Shinigami Core %1$s\nby Invokeil\n\nAn open-source, privacy-first Android assistant. Bring your own AI. Keep your control.</string>
+    <string name="settings_licenses">Open-source licenses</string>
+    <string name="settings_default_assistant">Default assistant</string>
+    <string name="settings_default_assistant_enabled">Enabled — Shini handles your assistant gesture</string>
+    <string name="settings_default_assistant_disabled">Not enabled — make Shini your default assistant</string>
+    <string name="settings_set_assistant">Set as default assistant</string>
+    <string name="settings_wake_battery_note">Wake word runs a foreground microphone service. Android shows a permanent notification while listening — and you can stop it anytime.</string>
+
+    <!-- ============ Commands ============ -->
+    <string name="commands_title">Custom Commands</string>
+    <string name="commands_empty_title">No custom commands</string>
+    <string name="commands_empty_body">Map any phrase to any capability — “start studying” could open your notes, set a timer and play focus music.</string>
+    <string name="commands_add">Add command</string>
+    <string name="commands_phrase">Phrase</string>
+    <string name="commands_tool">Capability</string>
+
+    <!-- ============ Misc ============ -->
+    <string name="ok">OK</string>
+    <string name="retry">Retry</string>
+    <string name="close">Close</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="error_no_internet">No internet connection. Offline commands still work.</string>
+    <string name="error_generic">Something went wrong. Try again.</string>
+    <string name="tts_sample">Hey, I am Shini. Ready when you are.</string>
+    <string name="mic_permission_rationale">Microphone access lets Shini hear you. Nothing is recorded or stored.</string>
+    <string name="notif_permission_rationale">Notifications let Shini show alarms, confirmations and the wake-word listener.</string>
+    <string name="nav_assistant">Assistant</string>
+    <string name="nav_history">Chats</string>
+    <string name="nav_providers">Providers</string>
+    <string name="nav_settings">Settings</string>
+    <string name="tile_label">Ask Shini</string>
+    <string name="notif_listener_label">Shinigami notification reader</string>
+    <string name="wake_notification_title">Shinigami is listening</string>
+    <string name="wake_notification_text">Say “Hey Shini” to wake the assistant.</string>
+    <string name="channel_wake">Wake word</string>
+    <string name="channel_general">General</string>
+    <string name="emergency_stop">Emergency stop</string>
+    <string name="emergency_stopped">Stopped. You are in control.</string>
+    <string name="protected_app_notice">Automation paused in protected app.</string>
+</resources>

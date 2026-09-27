@@ -1,0 +1,27 @@
+# Built artifacts
+build/
+app/build/
+.gradle/
+local.properties
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Signing material — NEVER commit
+keystore.properties
+*.jks
+*.keystore
+!app/src/main/res/font/*.ttf
+
+# Logs & temp
+*.log
+.DS_Store
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Kotlin/Gradle
+.kotlin/
+buildSrc/build/
