@@ -43,8 +43,9 @@ jobs:
         id: version
         run: |
           echo "tag=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
-          # semver tag (vX.Y.Z) -> monotonic versionCode (X*10000 + Y*100 + Z)
-          CODE=$(echo "${GITHUB_REF_NAME}" | sed 's/^v//' | cut -d. -f1-3 | awk -F. '{print $1*10000 + $2*100 + $3}')
+          # authoritative versionCode lives in build.gradle.kts — the app
+          # compares against ITS OWN code, so the marker must match exactly
+          CODE=$(grep -oP 'versionCode\s*=\s*\K\d+' app/build.gradle.kts | head -1)
           echo "code=${CODE}" >> "$GITHUB_OUTPUT"
 
       - name: Rename APK
